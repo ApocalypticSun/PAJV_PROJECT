@@ -10,46 +10,46 @@ using UnityEngine.InputSystem;
 
         private NewControls _gameControls;
 
-        Vector2 currentMovement;
-        private void Awake(){
-            _gameControls = new NewControls();
-            _gameControls.PlayerControls.Move.performed += context => 
-            {
-                currentMovement = context.ReadValue<Vector2>();
-                //Debug.Log("Y: " + currentMovement);
-            };
-        }
+        private void EnsureControls()
+{
+    if (_gameControls == null)
+        _gameControls = new NewControls();
+}
 
-        public override void Initialize()
-        {
-            Move();
-        }
+public override void Initialize()
+{
+    EnsureControls();
+    BindInputs();
+}
 
-        private void Move(){
-            // Movement Vector Input (WASD)
-            _gameControls.PlayerControls.Move.performed += context => this.MoveDirection = context.ReadValue<Vector2>();
-            _gameControls.PlayerControls.Move.canceled += context => this.MoveDirection = Vector2.zero;
-            // Sprinting
-            _gameControls.PlayerControls.Sprint.performed += context => this.OnStartSprint();
-            _gameControls.PlayerControls.Sprint.canceled += context => this.OnStopSprint();
+private void BindInputs()
+{
+    // Move
+    _gameControls.PlayerControls.Move.performed += ctx => MoveDirection = ctx.ReadValue<Vector2>();
+    _gameControls.PlayerControls.Move.canceled  += ctx => MoveDirection = Vector2.zero;
 
-            // Jumping
-            _gameControls.PlayerControls.Jump.performed += context => this.OnJump();
+    // Sprint
+    _gameControls.PlayerControls.Sprint.performed += _ => OnStartSprint();
+    _gameControls.PlayerControls.Sprint.canceled  += _ => OnStopSprint();
 
-            // Slamming
-            _gameControls.PlayerControls.Slam.performed += context => SlamButtonPressed?.Invoke();
+    // Jump
+    _gameControls.PlayerControls.Jump.performed += _ => OnJump();
 
-            // Dashing
-            _gameControls.PlayerControls.Dash.performed += context => DashButtonPressed?.Invoke();
+    // Slam / Dash
+    _gameControls.PlayerControls.Slam.performed += _ => SlamButtonPressed?.Invoke();
+    _gameControls.PlayerControls.Dash.performed += _ => DashButtonPressed?.Invoke();
+}
 
-        }
+private void OnEnable()
+{
+    EnsureControls();
+    _gameControls.Enable();
+}
 
-        private void OnEnable(){
-            _gameControls.Enable();
-        }
+private void OnDisable()
+{
+    _gameControls?.Disable();
+}
 
-        private void OnDisable(){
-            _gameControls.Disable();
-        }
     }
 
