@@ -1045,9 +1045,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d669a2c275684b74d8560c8e87743e6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ColorChanger
-  r: 34
-  g: 129
-  b: 36
+  r: 0
+  g: 0
+  b: 172
 --- !u!1 &1621199843
 GameObject:
   m_ObjectHideFlags: 0
