@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using NaughtyAttributes;
 
 public class NewPlayerStats : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class NewPlayerStats : MonoBehaviour
     [SerializeField] private int hp;
     [SerializeField] private int bullets;
     [SerializeField] private float speed;
+    public int Kills = 0;
+
 
     public int HP => hp;
     public int Bullets => bullets;
@@ -28,14 +31,13 @@ public class NewPlayerStats : MonoBehaviour
     private void Awake()
     {
         AutoWire();
+        className = PlayFabController.Instance.clasa;
     }
 
     private void Start()
     {
         ApplyClassFromString();
         UpdateUI();
-
-        // SetClass(PlayFabController.Instance.clasa);
     }
 
     private void AutoWire()
@@ -104,6 +106,7 @@ public class NewPlayerStats : MonoBehaviour
         hp = Mathf.Max(0, hp - amount);
         UpdateUI();
     }
+    
 
     private void UpdateUI()
     {

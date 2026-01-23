@@ -100,20 +100,20 @@ public class PanelController : MonoBehaviour
 
     public void SetToCLASS1()
     {
-        PlayFabController.Instance.clasa = "class_1";
+        PlayFabController.Instance.clasa = "Class1";
         PlayFabController.Instance.SetUserData(PlayFabController.Instance.clasa);
     }
 
     public void SetToCLASS2()
     {
-        PlayFabController.Instance.clasa = "class_2";
+        PlayFabController.Instance.clasa = "Class2";
         PlayFabController.Instance.SetUserData(PlayFabController.Instance.clasa);
 
     }
 
     public void SetToCLASS3()
     {
-        PlayFabController.Instance.clasa = "class_3";
+        PlayFabController.Instance.clasa = "Class3";
         PlayFabController.Instance.SetUserData(PlayFabController.Instance.clasa);
     }
 

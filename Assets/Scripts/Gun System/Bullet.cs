@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -5,6 +6,7 @@ public class Bullet : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float destroyDelay = 1f;
 
+    private GameObject playerHit;
     private bool hasHit = false;
 
     private GameObject owner;
@@ -18,6 +20,15 @@ public class Bullet : MonoBehaviour
     {
         return owner;
     }
+    public void SetEnemy(GameObject o)
+    {
+        playerHit = o;
+    }
+
+    public GameObject Enemy()
+    {
+        return playerHit;
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -26,7 +37,10 @@ public class Bullet : MonoBehaviour
 
         Debug.Log("Bullet hit: " + collision.gameObject.name);
         Invoke(nameof(DestroyBullet), destroyDelay);
+        if(collision.gameObject.CompareTag("Player") == true)
+            playerHit = collision.gameObject;
     }
+
 
     private void DestroyBullet()
     {

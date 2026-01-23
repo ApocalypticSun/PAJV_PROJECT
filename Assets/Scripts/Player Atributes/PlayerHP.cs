@@ -22,6 +22,11 @@ public class PlayerHP : MonoBehaviour
     private bool isReady = false;
     private bool isDead = false;
 
+    public GameObject PlayerToIncCounter;
+
+    public int Counter =0;
+
+
     private void Start()
     {
         if (playerStats == null)
@@ -43,7 +48,7 @@ public class PlayerHP : MonoBehaviour
         HP = playerStats.HP;
         isReady = true;
 
-        CheckDeathAndGhost();
+        //CheckDeathAndGhost();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -57,7 +62,7 @@ public class PlayerHP : MonoBehaviour
             if (b != null && b.GetOwner() == transform.root.gameObject)
                 return;
 
-            TakeDamage(bulletDamage);
+            TakeDamage(bulletDamage, b);
         }
     }
 
@@ -71,27 +76,36 @@ public class PlayerHP : MonoBehaviour
             Bullet b = other.GetComponent<Bullet>();
             if (b != null && b.GetOwner() == transform.root.gameObject)
                 return;
-
-            TakeDamage(bulletDamage);
+            TakeDamage(bulletDamage, b);
         }
     }
 
-    private void TakeDamage(int dmg)
+    private void TakeDamage(int dmg, Bullet N)
     {
         HP -= dmg;
         Debug.Log($"PlayerHP: {HP}");
-        CheckDeathAndGhost();
+        CheckDeathAndGhost(N);
     }
 
-    private void CheckDeathAndGhost()
+    private void CheckDeathAndGhost(Bullet N)
     {
         if (!isDead && HP <= 0)
-            EnterGhostMode();
-    }
+            EnterGhostMode(N);
 
-    private void EnterGhostMode()
+    }
+    private void KillCounter(Bullet B)
     {
+        if(isDead == true)
+        {
+            B.GetOwner().GetComponent<NewPlayerStats>().Kills++;
+            Debug.Log($"Kill counter: {B.GetOwner().GetComponent<NewPlayerStats>().Kills}");
+        }
+    }
+    private void EnterGhostMode(Bullet N)
+    {
+        
         isDead = true;
+        KillCounter(N);
         Debug.Log("Ghost + Invisible mode ON");
 
         // disable gameplay scripts
@@ -161,6 +175,6 @@ public class PlayerHP : MonoBehaviour
         if (playerStats != null)
             HP = playerStats.HP;
 
-        CheckDeathAndGhost();
+        //CheckDeathAndGhost();
     }
 }
