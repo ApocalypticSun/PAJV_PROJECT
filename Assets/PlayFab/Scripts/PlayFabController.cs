@@ -19,7 +19,7 @@ public class PlayFabController : MonoBehaviour
     private string myID;
 
     //D57EBD0D4BFB4FC2
-
+    //723434C628E9B976
     private void OnEnable()
     {
         if (PlayFabController.Instance == null)
@@ -46,7 +46,7 @@ public class PlayFabController : MonoBehaviour
 
         var request = new LoginWithCustomIDRequest
         {
-            CustomId = "D57EBD0D4BFB4FC2",
+            CustomId = "723434C628E9B976",
             CreateAccount = false
         };
         PlayFabClientAPI.LoginWithCustomID(request, OnLoginSuccess, OnLoginFail);
@@ -60,7 +60,7 @@ public class PlayFabController : MonoBehaviour
     {
         StartCloudUpdatePlayerStats();
 
-        SetUserData("class_1");
+       
     }
 
 
