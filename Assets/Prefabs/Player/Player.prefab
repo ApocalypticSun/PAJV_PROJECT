@@ -656,6 +656,7 @@ GameObject:
   - component: {fileID: 3768282593884712713}
   - component: {fileID: 3438025892355340037}
   - component: {fileID: 271887836745053850}
+  - component: {fileID: 6665588182832286346}
   m_Layer: 6
   m_Name: Capsule
   m_TagString: Player
@@ -830,6 +831,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AdvancedMovementControls
   MoveDirection: {x: 0, y: 0}
+--- !u!114 &6665588182832286346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7526025922681397897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24d31ea2030fc0748bc6bb5c60793bca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealthGhost
+  playerStats: {fileID: 4634359112029682678}
+  HP: 0
+  bulletDamage: 10
+  serverInitDelay: 2
+  behavioursToDisable:
+  - {fileID: 3438025892355340037}
+  collidersToDisable:
+  - {fileID: 7985332509715496074}
+  - {fileID: 5951492330701116045}
+  rigidbodiesToFreeze:
+  - {fileID: 3768282593884712713}
+  renderersToHide:
+  - {fileID: 2154405642132263918}
+  - {fileID: 4067254758850520991}
 --- !u!1 &8429118277642027550
 GameObject:
   m_ObjectHideFlags: 0
@@ -906,6 +933,9 @@ GameObject:
   - component: {fileID: 3362959790252237652}
   - component: {fileID: 8581688734189178181}
   - component: {fileID: 7070487916057099234}
+  - component: {fileID: 3034172260004347254}
+  - component: {fileID: 4634359112029682678}
+  - component: {fileID: 194473922412925077}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -958,3 +988,59 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerColor
   targetRenderer: {fileID: 4067254758850520991}
   colorProperty: _BaseColor
+--- !u!114 &3034172260004347254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8860413811233361616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bf1ce1d6de3c9b419daaa1d4d77814b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gun
+  barrel: {fileID: 7775423669024278256}
+  bulletPrefab: {fileID: 6467849859488066515, guid: 081424edd69674b4787af1a896ec5f8f, type: 3}
+  playerStats: {fileID: 4634359112029682678}
+  serverInitDelay: 2
+  reloadTime: 10
+--- !u!114 &4634359112029682678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8860413811233361616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 613cb04add73ec44cb94ce4d513cb81e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NewPlayerStats
+  playerManagerName: Player Manager
+  uiManagerName: UI Manager
+  hpValuePathUnderUIManager: Canvas/HP Value
+  ammoValuePathUnderUIManager: Canvas/Ammo Value
+  className: Class1
+  hp: 0
+  bullets: 0
+  speed: 0
+--- !u!114 &194473922412925077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8860413811233361616}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fc72bbc39b69014ea5b082fa4616068, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  gameData: {fileID: 0}
+  className: Class1
+  hp: 0
+  bullets: 0
+  speed: 0
+  Health: {fileID: 0}
+  Ammo: {fileID: 0}

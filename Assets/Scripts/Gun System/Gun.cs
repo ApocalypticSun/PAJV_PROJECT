@@ -1,56 +1,101 @@
 using UnityEngine;
 using System.Collections;
-using TMPro;
+
 public class Gun : MonoBehaviour
 {
-    public float damage = 10f;
-    public float range = 100f;
-    public Camera fpsCam;
-    public ParticleSystem flash;
-    public GameObject impact;
-    public int ammo = 40;
-    public TMP_Text Ammunition;
-    // Update is called once per frame
-    void Update()
+    [Header("References")]
+    [SerializeField] private Transform barrel;
+    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private NewPlayerStats playerStats;
+
+    [Header("Timing")]
+    [SerializeField] private float serverInitDelay = 2f; // timp de așteptare server
+    [SerializeField] private float reloadTime = 10f;
+
+    private float nextFireTime = 0f;
+    private bool isReloading = false;
+    private bool isReady = false;
+
+    private int currentBullets;
+    private float fireDelay;
+
+    private PlayerHP playerHP;
+
+    private void Start()
     {
-        if(Input.GetKeyDown(KeyCode.Mouse0))
+        if (playerStats == null)
+            playerStats = GetComponentInParent<NewPlayerStats>();
+
+        // IMPORTANT: PlayerHP trebuie să fie pe player (părinte/root)
+        playerHP = GetComponentInParent<PlayerHP>();
+
+        StartCoroutine(WaitForServerData());
+    }
+
+    private IEnumerator WaitForServerData()
+    {
+        yield return new WaitForSeconds(serverInitDelay);
+
+        if (playerStats == null)
         {
-            if(ammo > 0)
+            Debug.LogError("Gun: NewPlayerStats not found.");
+            yield break;
+        }
+
+        currentBullets = playerStats.Bullets;
+        fireDelay = 1f / Mathf.Max(playerStats.Speed, 0.1f);
+
+        isReady = true;
+        Debug.Log("Gun ready to fire!");
+    }
+
+    private void Update()
+    {
+        if (!isReady || isReloading)
+            return;
+
+        if (Input.GetMouseButton(0) && Time.time >= nextFireTime)
+        {
+            if (currentBullets > 0)
             {
                 Shoot();
+                currentBullets--;
+                nextFireTime = Time.time + fireDelay;
+
+                if (currentBullets <= 0)
+                    StartReload();
             }
-            else
-            {
-                Debug.Log("Gloante pula");
-            }
-            Ammunition.text = "Ammo: " + ammo.ToString();
         }
     }
-    void Shoot()
+
+        private void Shoot()
     {
-        flash.Play();
-        ammo -= 1;
-        RaycastHit hit;
-        if(Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward,out hit, range))
-        {
-            Debug.Log(hit.transform.name);
-            Target target = hit.transform.GetComponent<Target>();
-            if(target != null)
-            {
-                target.TakeDamage(damage);
-            }
-            //EnemyAi enemy = hit.transform.GetComponent<EnemyAi>();
-            /* if(enemy != null)
-            {
-                enemy.TakeDamage(damage*2);
-            } */
-        }
-        GameObject impactGO = Instantiate(impact,hit.point,Quaternion.LookRotation(hit.normal));
-        Destroy(impactGO,1f);
+        GameObject bullet = Instantiate(bulletPrefab, barrel.position, barrel.rotation);
+
+        // SET OWNER
+        Bullet b = bullet.GetComponent<Bullet>();
+        if (b != null)
+            b.SetOwner(transform.root.gameObject);
+
+        Rigidbody rb = bullet.GetComponent<Rigidbody>();
+        if (rb != null)
+            rb.linearVelocity = barrel.forward * 32f;
     }
-    public void AddAmmo(int amount)
+
+
+
+    private void StartReload()
     {
-        ammo += amount;
-        Debug.Log("Catchu");
+        isReloading = true;
+        Debug.Log("Out of ammo... Reloading");
+
+        Invoke(nameof(FinishReload), reloadTime);
+    }
+
+    private void FinishReload()
+    {
+        currentBullets = playerStats.Bullets;
+        isReloading = false;
+        Debug.Log("Reload complete!");
     }
 }
