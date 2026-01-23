@@ -880,15 +880,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameData
   class1:
     hp: 100
-    bullets: 10
-    speed: 10
+    bullets: 100
+    speed: 20
   class2:
     hp: 100
-    bullets: 10
+    bullets: 111
     speed: 32
   class3:
     hp: 100
-    bullets: 10
+    bullets: 1000
     speed: 2
 --- !u!1 &1262011311
 GameObject:

@@ -39,6 +39,11 @@ public class NewPlayerStats : MonoBehaviour
         ApplyClassFromString();
         UpdateUI();
     }
+    private void OnApplicationQuit()
+    {
+        PlayFabController.Instance.kills = Kills;
+        PlayFabController.Instance.StartCloudUpdatePlayerStats();
+    }
 
     private void AutoWire()
     {
