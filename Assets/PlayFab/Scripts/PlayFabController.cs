@@ -20,6 +20,9 @@ public class PlayFabController : MonoBehaviour
 
     //D57EBD0D4BFB4FC2
     //723434C628E9B976
+
+    public string customId;
+
     private void OnEnable()
     {
         if (PlayFabController.Instance == null)
@@ -37,6 +40,22 @@ public class PlayFabController : MonoBehaviour
 
     }
 
+    void Awake()
+    {
+        string[] args = System.Environment.GetCommandLineArgs();
+
+        // args[0] is usually the path to the exe, so the first parameter is args[1]
+        if (args.Length > 1)
+        {
+            customId = args[1];
+            Debug.Log("Received customId: " + customId);
+        }
+        else
+        {
+            Debug.Log("No customId received from launcher.");
+        }
+    }
+
     void Start()
     {
         if(string.IsNullOrEmpty(PlayFabSettings.TitleId))
@@ -46,7 +65,7 @@ public class PlayFabController : MonoBehaviour
 
         var request = new LoginWithCustomIDRequest
         {
-            CustomId = "723434C628E9B976",
+            CustomId = customId,
             CreateAccount = false
         };
         PlayFabClientAPI.LoginWithCustomID(request, OnLoginSuccess, OnLoginFail);
