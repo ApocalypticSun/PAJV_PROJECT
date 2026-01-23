@@ -1,6 +1,7 @@
 
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PanelController : MonoBehaviour
@@ -91,5 +92,30 @@ public class PanelController : MonoBehaviour
         customization.SetActive(false);
         leaderboard.SetActive(false);
     }
+
+    public void LoadGame()
+    {
+        SceneManager.LoadScene("ShootingRange");
+    }
+
+    public void SetToCLASS1()
+    {
+        PlayFabController.Instance.clasa = "class_1";
+        PlayFabController.Instance.SetUserData(PlayFabController.Instance.clasa);
+    }
+
+    public void SetToCLASS2()
+    {
+        PlayFabController.Instance.clasa = "class_2";
+        PlayFabController.Instance.SetUserData(PlayFabController.Instance.clasa);
+
+    }
+
+    public void SetToCLASS3()
+    {
+        PlayFabController.Instance.clasa = "class_3";
+        PlayFabController.Instance.SetUserData(PlayFabController.Instance.clasa);
+    }
+
 
 }

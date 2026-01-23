@@ -34,6 +34,8 @@ public class NewPlayerStats : MonoBehaviour
     {
         ApplyClassFromString();
         UpdateUI();
+
+        // SetClass(PlayFabController.Instance.clasa);
     }
 
     private void AutoWire()
